@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Happy Birthday Meilinda Puspita Sari</title>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600&family=Lora:ital,wght@0,400;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --pink:       #f9a8c9;
+      --pink-light: #fde8f2;
+      --pink-dark:  #e879a0;
+      --blue:       #a8d4f9;
+      --blue-light: #dceefb;
+      --blue-dark:  #5baae7;
+      --cream:      #fdf6ee;
+      --cream-dark: #f5ead8;
+      --ink:        #3a2e2e;
+      --ink-light:  #7a6a6a;
+      --paper:      #fefaf4;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--cream);
+      background-image: repeating-linear-gradient(
+        transparent, transparent 31px,
+        rgba(168,212,249,0.15) 31px,
+        rgba(168,212,249,0.15) 32px
+      );
+      color: var(--ink);
+      font-family: 'Lora', serif;
+      overflow-x: hidden;
+    }
+
+    /* =============================================
+       MUSIK PLAYER
+    ============================================= */
+    #music-player {
+      position: fixed; bottom: 24px; right: 24px; z-index: 200;
+      display: flex; align-items: center; gap: 10px;
+      background: var(--paper);
+      border: 1.5px solid var(--pink); border-radius: 40px;
+      padding: 8px 16px 8px 8px;
+      box-shadow: 3px 3px 0 var(--pink-light);
+    }
+    #music-player button {
+      width: 34px; height: 34px; border-radius: 50%;
+      border: 1.5px solid var(--pink-dark);
+      background: var(--pink-light); color: var(--pink-dark);
+      font-size: 13px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+    }
+    #music-player .song-title  { font-family: 'Caveat', cursive; font-size: 14px; color: var(--ink); }
+    #music-player .song-artist { font-family: 'Caveat', cursive; font-size: 12px; color: var(--ink-light); }
+
+    /* =============================================
+       HERO
+    ============================================= */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center; padding: 80px 24px;
+      position: relative; overflow: hidden;
+    }
+    .hero-date {
+      font-family: 'Caveat', cursive; font-size: 16px;
+      color: var(--pink-dark); margin-bottom: 14px;
+      opacity: 0; animation: fadeUp 1s 0.3s forwards;
+    }
+    .hero-title {
+      font-family: 'Caveat', cursive;
+      font-size: clamp(60px, 13vw, 130px); font-weight: 600; line-height: 1;
+      color: var(--ink);
+      text-shadow: 2px 2px 0 rgba(249,168,201,0.4);
+      margin-bottom: 8px;
+      opacity: 0; animation: fadeUp 1s 0.6s forwards;
+    }
+    .hero-underline {
+      width: 200px; height: 14px; margin: 0 auto 18px;
+      opacity: 0; animation: fadeUp 1s 0.8s forwards;
+    }
+    .hero-subtitle {
+      font-family: 'Lora', serif; font-style: italic;
+      font-size: clamp(15px, 2.5vw, 20px);
+      color: var(--ink-light); max-width: 420px; line-height: 1.8;
+      opacity: 0; animation: fadeUp 1s 1s forwards;
+    }
+    .scroll-hint {
+      margin-top: 56px;
+      font-family: 'Caveat', cursive; font-size: 15px; color: var(--pink-dark);
+      opacity: 0; animation: fadeUp 1s 1.4s forwards;
+      display: flex; flex-direction: column; align-items: center; gap: 4px;
+    }
+    .scroll-hint::after { content: '↓'; animation: bounce 1.6s ease-in-out infinite; }
+    @keyframes bounce  { 0%,100%{transform:translateY(0)} 50%{transform:translateY(8px)} }
+    @keyframes fadeUp  { from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:translateY(0)} }
+
+    /* Bunga hero pojok */
+    .hero .flower-left,
+    .hero .flower-right {
+      position: absolute; bottom: 0; pointer-events: none;
+      opacity: 0; animation: fadeUp 1.2s 1.2s forwards;
+    }
+    .hero .flower-left  { left: 0; }
+    .hero .flower-right { right: 0; transform: scaleX(-1); }
+    .hero .flower-left svg,
+    .hero .flower-right svg { width: clamp(100px, 16vw, 220px); height: auto; }
+
+    /* =============================================
+       CHAPTER SECTION
+    ============================================= */
+    .chapter {
+      position: relative;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 24px 20px;
+    }
+
+    .chapter-row {
+      display: grid;
+      grid-template-columns: 180px 1fr 180px;
+      align-items: center;
+      gap: 24px;
+      margin-bottom: 40px;
+      opacity: 0; transform: translateY(30px);
+      transition: opacity 0.85s ease, transform 0.85s ease;
+    }
+    .chapter-row.visible { opacity: 1; transform: translateY(0); }
+
+    .flower-col { display: flex; justify-content: center; align-items: flex-end; }
+    .flower-col svg { width: 100%; max-width: 160px; height: auto; }
+    .flower-col.right { transform: scaleX(-1); }
+
+    .chapter-text { text-align: center; padding: 0 8px; }
+    .chapter-label {
+      font-family: 'Caveat', cursive; font-size: 13px;
+      letter-spacing: 3px; text-transform: uppercase;
+      color: var(--blue-dark); display: block; margin-bottom: 10px;
+    }
+    .chapter-p {
+      font-family: 'Lora', serif; font-style: italic;
+      font-size: clamp(16px, 2.2vw, 20px);
+      line-height: 2; color: var(--ink);
+    }
+    .chapter-p em {
+      font-style: normal; color: var(--pink-dark);
+      border-bottom: 1.5px solid var(--pink);
+    }
+
+    .chapter-photos {
+      display: grid;
+      grid-template-columns: 1fr 140px 1fr;
+      gap: 16px;
+      align-items: start;
+      margin-bottom: 60px;
+      opacity: 0; transform: translateY(30px);
+      transition: opacity 0.85s 0.15s ease, transform 0.85s 0.15s ease;
+    }
+    .chapter-photos.visible { opacity: 1; transform: translateY(0); }
+
+    .photo-left  { display: flex; justify-content: flex-end; gap: 14px; flex-wrap: wrap; }
+    .photo-right { display: flex; justify-content: flex-start; gap: 14px; flex-wrap: wrap; }
+
+    .polaroid {
+      background: white;
+      padding: 10px 10px 46px;
+      box-shadow: 3px 3px 0 rgba(249,168,201,0.35), 5px 5px 18px rgba(0,0,0,0.08);
+      border: 1px solid rgba(0,0,0,0.05);
+      position: relative;
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+      width: 200px; flex-shrink: 0;
+    }
+    .polaroid:nth-child(odd)  { transform: rotate(-3deg); }
+    .polaroid:nth-child(even) { transform: rotate(2.5deg); }
+    .polaroid:hover {
+      transform: rotate(0deg) scale(1.06) !important;
+      box-shadow: 4px 4px 0 var(--pink), 8px 8px 28px rgba(249,168,201,0.3);
+      z-index: 10;
+    }
+    .polaroid::before {
+      content: '';
+      position: absolute; top: -8px; left: 50%; transform: translateX(-50%);
+      width: 44px; height: 16px;
+      background: rgba(249,168,201,0.4); border-radius: 2px;
+    }
+    .polaroid img { width: 100%; aspect-ratio: 1/1; object-fit: cover; display: block; }
+    .polaroid-caption {
+      position: absolute; bottom: 8px; left: 0; right: 0;
+      text-align: center;
+      font-family: 'Caveat', cursive; font-size: 14px; color: var(--ink-light);
+    }
+
+    .divider {
+      text-align: center; margin-bottom: 20px;
+      opacity: 0; transform: translateY(10px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .divider.visible { opacity: 1; transform: translateY(0); }
+    .divider svg { width: 260px; height: 20px; overflow: visible; }
+
+    /* =============================================
+       VIDEO SECTION
+    ============================================= */
+    .video-section {
+      max-width: 720px; margin: 20px auto 60px;
+      padding: 0 24px;
+      opacity: 0; transform: translateY(30px);
+      transition: opacity 0.9s ease, transform 0.9s ease;
+    }
+    .video-section.visible { opacity: 1; transform: translateY(0); }
+    .video-label {
+      font-family: 'Caveat', cursive; font-size: 13px;
+      letter-spacing: 3px; text-transform: uppercase;
+      color: var(--blue-dark); display: block;
+      text-align: center; margin-bottom: 16px;
+    }
+
+    /* =============================================
+       ENDING
+    ============================================= */
+    .ending {
+      text-align: center; padding: 80px 24px 120px;
+      position: relative;
+    }
+    .ending-flowers {
+      display: flex; justify-content: space-between;
+      align-items: flex-end; margin-bottom: -20px;
+      opacity: 0; transform: translateY(20px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+    .ending-flowers.visible { opacity: 1; transform: translateY(0); }
+    .ending-flowers svg { width: clamp(80px, 14vw, 180px); height: auto; }
+    .ending-flowers .flip { transform: scaleX(-1); }
+    .ending-title {
+      font-family: 'Caveat', cursive;
+      font-size: clamp(42px, 8vw, 88px); font-weight: 600;
+      color: var(--ink); line-height: 1.1;
+      opacity: 0; transform: translateY(25px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+    .ending-title.visible { opacity: 1; transform: translateY(0); }
+    .ending-sub {
+      font-family: 'Lora', serif; font-style: italic;
+      font-size: 18px; color: var(--ink-light); margin-top: 14px;
+      opacity: 0; transform: translateY(15px);
+      transition: opacity 1s 0.3s ease, transform 1s 0.3s ease;
+    }
+    .ending-sub.visible { opacity: 1; transform: translateY(0); }
+
+    /* =============================================
+       BLOOM ANIMATION — BUNGA MEKAR
+    ============================================= */
+
+    /* Semua bloom-group mulai tersembunyi */
+    .bloom-group {
+      transform-box: fill-box;
+      transform-origin: center;
+      transform: scale(0) rotate(-15deg);
+      opacity: 0;
+    }
+
+    /* Kelompok dengan delay (bunga kecil di hero) */
+    .bloom-group-2 {
+      transform-box: fill-box;
+      transform-origin: center;
+      transform: scale(0) rotate(-15deg);
+      opacity: 0;
+    }
+
+    /* Saat .bloom ditambahkan ke SVG */
+    .flower-svg.bloom .bloom-group {
+      animation: flowerBloom 0.85s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    .flower-svg.bloom .bloom-group-2 {
+      animation: flowerBloom 0.85s cubic-bezier(0.34, 1.56, 0.64, 1) 0.35s forwards;
+    }
+
+    /* Kelopak individual ikut mekar dengan stagger */
+.flower-svg.bloom .bloom-group path {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  animation: petalSpread 0.55s ease-out both;
+}
+.flower-svg.bloom .bloom-group path:nth-of-type(1) { animation-delay: 0.05s; }
+.flower-svg.bloom .bloom-group path:nth-of-type(2) { animation-delay: 0.18s; }
+.flower-svg.bloom .bloom-group path:nth-of-type(3) { animation-delay: 0.31s; }
+    .flower-svg.bloom .bloom-group ellipse:nth-of-type(4) { animation-delay: 0.26s; }
+    .flower-svg.bloom .bloom-group ellipse:nth-of-type(5) { animation-delay: 0.33s; }
+    .flower-svg.bloom .bloom-group ellipse:nth-of-type(6) { animation-delay: 0.40s; }
+    .flower-svg.bloom .bloom-group ellipse:nth-of-type(7) { animation-delay: 0.47s; }
+    .flower-svg.bloom .bloom-group ellipse:nth-of-type(8) { animation-delay: 0.54s; }
+
+    .flower-svg.bloom .bloom-group-2 ellipse {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: petalSpread 0.45s ease-out 0.35s both;
+    }
+    .flower-svg.bloom .bloom-group-2 ellipse:nth-of-type(1) { animation-delay: 0.38s; }
+    .flower-svg.bloom .bloom-group-2 ellipse:nth-of-type(2) { animation-delay: 0.44s; }
+    .flower-svg.bloom .bloom-group-2 ellipse:nth-of-type(3) { animation-delay: 0.50s; }
+    .flower-svg.bloom .bloom-group-2 ellipse:nth-of-type(4) { animation-delay: 0.56s; }
+
+    @keyframes flowerBloom {
+      0%   { transform: scale(0) rotate(-15deg); opacity: 0; }
+      40%  { opacity: 1; }
+      72%  { transform: scale(1.14) rotate(4deg); opacity: 1; }
+      100% { transform: scale(1) rotate(0deg); opacity: 1; }
+    }
+
+    @keyframes petalSpread {
+      0%   { transform: scale(0.1); }
+      65%  { transform: scale(1.18); }
+      100% { transform: scale(1); }
+    }
+
+    /* =============================================
+       RESPONSIVE
+    ============================================= */
+    @media (max-width: 700px) {
+      .chapter-row {
+        grid-template-columns: 60px 1fr 60px;
+        gap: 10px;
+      }
+      .chapter-photos {
+        grid-template-columns: 1fr 1fr;
+      }
+      .photo-mid { display: none; }
+      .photo-left, .photo-right { justify-content: center; }
+      .polaroid { width: 140px; }
+    }
+    @media (max-width: 480px) {
+      .chapter-row { grid-template-columns: 1fr; }
+      .flower-col  { display: none; }
+      .chapter-photos { grid-template-columns: 1fr; }
+      .photo-mid   { display: none; }
+      .polaroid    { width: 100%; max-width: 220px; margin: 0 auto; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="music-player">
+    <button id="play-btn" onclick="toggleMusic()">▶</button>
+    <div>
+      <div class="song-title">our fav drakor !?</div>
+      <div class="song-artist">api  </div>
+    </div>
+  </div>
+  <audio id="bg-music" loop src="music/laguuu.mp3"></audio>
+
+  <!-- ============================================================
+       🌸 HERO
+  ============================================================ -->
+  <section class="hero">
+    <!-- Bunga hero kiri -->
+    <div class="flower-left">
+      <svg class="flower-svg" viewBox="0 0 200 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Batang & daun: tidak dianimasi -->
+        <path d="M100 280 C98 220, 95 180, 100 140" stroke="#7a6a6a" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M100 200 C80 185, 55 175, 40 155" stroke="#7a6a6a" stroke-width="2" stroke-linecap="round"/>
+        <path d="M100 230 C120 215, 145 210, 158 195" stroke="#7a6a6a" stroke-width="2" stroke-linecap="round"/>
+        <path d="M100 200 C80 185, 55 175, 40 155 C55 165, 75 175, 100 200Z" fill="#b5d9a0" opacity="0.7"/>
+        <path d="M100 230 C120 215, 145 210, 158 195 C140 208, 118 215, 100 230Z" fill="#b5d9a0" opacity="0.7"/>
+        <!-- Bunga besar: bloom-group -->
+        <g class="bloom-group">
+          <circle cx="100" cy="120" r="14" fill="#fde8f2"/>
+          <ellipse cx="100" cy="96"  rx="10" ry="16" fill="#f9a8c9" opacity="0.85"/>
+          <ellipse cx="100" cy="144" rx="10" ry="16" fill="#f9a8c9" opacity="0.85"/>
+          <ellipse cx="76"  cy="120" rx="16" ry="10" fill="#f9a8c9" opacity="0.85"/>
+          <ellipse cx="124" cy="120" rx="16" ry="10" fill="#f9a8c9" opacity="0.85"/>
+          <ellipse cx="83"  cy="103" rx="10" ry="16" fill="#f9a8c9" opacity="0.7" transform="rotate(-45 83 103)"/>
+          <ellipse cx="117" cy="103" rx="10" ry="16" fill="#f9a8c9" opacity="0.7" transform="rotate(45 117 103)"/>
+          <ellipse cx="83"  cy="137" rx="10" ry="16" fill="#f9a8c9" opacity="0.7" transform="rotate(45 83 137)"/>
+          <ellipse cx="117" cy="137" rx="10" ry="16" fill="#f9a8c9" opacity="0.7" transform="rotate(-45 117 137)"/>
+          <circle cx="100" cy="120" r="9" fill="#e879a0"/>
+        </g>
+        <!-- Bunga kecil: bloom-group-2 -->
+        <g class="bloom-group-2">
+          <circle cx="55" cy="158" r="9" fill="#fde8f2"/>
+          <ellipse cx="55" cy="146" rx="6" ry="10" fill="#a8d4f9" opacity="0.8"/>
+          <ellipse cx="55" cy="170" rx="6" ry="10" fill="#a8d4f9" opacity="0.8"/>
+          <ellipse cx="43"  cy="158" rx="10" ry="6"  fill="#a8d4f9" opacity="0.8"/>
+          <ellipse cx="67"  cy="158" rx="10" ry="6"  fill="#a8d4f9" opacity="0.8"/>
+          <circle cx="55" cy="158" r="5" fill="#5baae7"/>
+        </g>
+      </svg>
+    </div>
+
+    <!-- Bunga hero kanan -->
+    <div class="flower-right">
+      <svg class="flower-svg" viewBox="0 0 200 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M100 280 C98 220, 95 180, 100 140" stroke="#7a6a6a" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M100 200 C80 185, 55 175, 40 155" stroke="#7a6a6a" stroke-width="2" stroke-linecap="round"/>
+        <path d="M100 230 C120 215, 145 210, 158 195" stroke="#7a6a6a" stroke-width="2" stroke-linecap="round"/>
+        <path d="M100 200 C80 185, 55 175, 40 155 C55 165, 75 175, 100 200Z" fill="#b5d9a0" opacity="0.7"/>
+        <path d="M100 230 C120 215, 145 210, 158 195 C140 208, 118 215, 100 230Z" fill="#b5d9a0" opacity="0.7"/>
+        <g class="bloom-group">
+          <circle cx="100" cy="120" r="14" fill="#dceefb"/>
+          <ellipse cx="100" cy="96"  rx="10" ry="16" fill="#a8d4f9" opacity="0.85"/>
+          <ellipse cx="100" cy="144" rx="10" ry="16" fill="#a8d4f9" opacity="0.85"/>
+          <ellipse cx="76"  cy="120" rx="16" ry="10" fill="#a8d4f9" opacity="0.85"/>
+          <ellipse cx="124" cy="120" rx="16" ry="10" fill="#a8d4f9" opacity="0.85"/>
+          <ellipse cx="83"  cy="103" rx="10" ry="16" fill="#a8d4f9" opacity="0.7" transform="rotate(-45 83 103)"/>
+          <ellipse cx="117" cy="103" rx="10" ry="16" fill="#a8d4f9" opacity="0.7" transform="rotate(45 117 103)"/>
+          <ellipse cx="83"  cy="137" rx="10" ry="16" fill="#a8d4f9" opacity="0.7" transform="rotate(45 83 137)"/>
+          <ellipse cx="117" cy="137" rx="10" ry="16" fill="#a8d4f9" opacity="0.7" transform="rotate(-45 117 137)"/>
+          <circle cx="100" cy="120" r="9" fill="#5baae7"/>
+        </g>
+        <g class="bloom-group-2">
+          <circle cx="55" cy="158" r="9" fill="#fde8f2"/>
+          <ellipse cx="55" cy="146" rx="6" ry="10" fill="#f9a8c9" opacity="0.8"/>
+          <ellipse cx="55" cy="170" rx="6" ry="10" fill="#f9a8c9" opacity="0.8"/>
+          <ellipse cx="43"  cy="158" rx="10" ry="6"  fill="#f9a8c9" opacity="0.8"/>
+          <ellipse cx="67"  cy="158" rx="10" ry="6"  fill="#f9a8c9" opacity="0.8"/>
+          <circle cx="55" cy="158" r="5" fill="#e879a0"/>
+        </g>
+      </svg>
+    </div>
+
+    <span class="hero-date">api ganteng ✦</span>
+    <h1 class="hero-title">Birthday Letter to My Fav Person </h1>
+    <svg class="hero-underline" viewBox="0 0 200 14" fill="none">
+      <path d="M2 10 C40 4,80 13,100 7 S170 2,198 9" stroke="#f9a8c9" stroke-width="2.5" stroke-linecap="round"/>
+    </svg>
+    <p class="hero-subtitle">Selamat ulang tahun Meilinda Puspita Sari sayangnyoo apii !!!</p>
+    <div class="scroll-hint">play dulu musik di kanan bawah ya!</div>
+  </section>
+
+  <!-- ============================================================
+       FOTO PEMBUKA (sebelum chapter 1)
+  ============================================================ -->
+    <div class="chapter-photos">
+      <div class="photo-left">
+        <div class="polaroid">
+          <img src="image/meyin_acu.jpeg" alt="foto 1"/>
+          <div class="polaroid-caption">meyinn cantikk</div>
+        </div>
+      </div>
+      <div class="photo-mid"></div>
+      <div class="photo-right">
+        <div class="polaroid">
+          <img src="image/bayi1.jpeg" alt="foto 1"/>
+          <div class="polaroid-caption">meyin kecill</div>
+        </div>
+      </div>
+    </div>
+    <div class="chapter-photos">
+      <div class="photo-left">
+        <div class="polaroid">
+          <img src="image/bayi2.jpeg" alt="foto 1"/>
+          <div class="polaroid-caption">meyin mungil</div>
+        </div>
+      </div>
+      <div class="photo-mid"></div>
+      <div class="photo-right">
+        <div class="polaroid">
+          <img src="image/sekolah.jpeg" alt="foto 1"/>
+          <div class="polaroid-caption">meyin cekolah</div>
+        </div>
+      </div>
+    </div>
+
+  <!-- ============================================================
+       📖 CHAPTER 1
+  ============================================================ -->
+  <div class="chapter">
+    <div class="chapter-row">
+      <!-- Bunga kiri -->
+      <div class="flower-col left">
+        <svg class="flower-svg" viewBox="0 0 160 220" fill="none">
+          <path d="M80 220 C78 170,76 140,80 110" stroke="#7a6a6a" stroke-width="2.2" stroke-linecap="round"/>
+          <path d="M80 160 C62 148,42 140,30 125" stroke="#7a6a6a" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M80 185 C98 172,115 168,126 155" stroke="#7a6a6a" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M80 160 C62 148,42 140,30 125 C45 134,62 144,80 160Z" fill="#b5d9a0" opacity="0.65"/>
+          <path d="M80 185 C98 172,115 168,126 155 C110 166,94 173,80 185Z" fill="#b5d9a0" opacity="0.65"/>
+          <g class="bloom-group">
+            <circle cx="80" cy="94" r="12" fill="#fde8f2"/>
+            <ellipse cx="80" cy="74"  rx="9" ry="14" fill="#f9a8c9" opacity="0.85"/>
+            <ellipse cx="80" cy="114" rx="9" ry="14" fill="#f9a8c9" opacity="0.85"/>
+            <ellipse cx="60" cy="94" rx="14" ry="9"  fill="#f9a8c9" opacity="0.85"/>
+            <ellipse cx="100" cy="94" rx="14" ry="9" fill="#f9a8c9" opacity="0.85"/>
+            <ellipse cx="66" cy="80" rx="9" ry="14"  fill="#f9a8c9" opacity="0.65" transform="rotate(-45 66 80)"/>
+            <ellipse cx="94" cy="80" rx="9" ry="14"  fill="#f9a8c9" opacity="0.65" transform="rotate(45 94 80)"/>
+            <ellipse cx="66" cy="108" rx="9" ry="14" fill="#f9a8c9" opacity="0.65" transform="rotate(45 66 108)"/>
+            <ellipse cx="94" cy="108" rx="9" ry="14" fill="#f9a8c9" opacity="0.65" transform="rotate(-45 94 108)"/>
+            <circle cx="80" cy="94" r="8" fill="#e879a0"/>
+          </g>
+        </svg>
+      </div>
+
+      <!-- Teks tengah -->
+      <div class="chapter-text">
+        <span class="chapter-label">Pembukaan Undang Undang Dasar </span>
+        <p class="chapter-p">
+          haloo sengg, HEHEHEHEHE kembali lagii bersama api yang membuatkan website untuk melinnn!!!. Maaf yo senggg padahal sebelumnyo la pernah bikin ck ini tapi api malah bikin lagii, api bingung harus kasi apo ke melinn di ultah melinn tahun ini mala kito dk biso ketemuu,
+          wlopun kemarin api suda kasii sendal   yg melin mauu dari duluuu tapi apii ngeraso takut ad yg kurangg karna ultah melin tahun ini bener bener sepii, ayukk pegii, adekk pegii, apii gaweee.
+          Melin jangan sedih yoo, semoga kado online yg api bikin ini biso bikin melin bahagiaa yoo cintaaakuuu. oiyaa api bikin ini sedikit bedaaa dari yg waktu itu api bikinn, semoga yang api bikin cukup buat melin seneng di hari ulang tahun melin ini yoo.
+        </p>
+        <br><br>
+      </div>
+
+      <!-- Bunga kanan -->
+      <div class="flower-col right">
+        <svg class="flower-svg" viewBox="0 0 160 220" fill="none">
+          <path d="M80 220 C78 170,76 140,80 110" stroke="#7a6a6a" stroke-width="2.2" stroke-linecap="round"/>
+          <path d="M80 160 C62 148,42 140,30 125" stroke="#7a6a6a" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M80 185 C98 172,115 168,126 155" stroke="#7a6a6a" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M80 160 C62 148,42 140,30 125 C45 134,62 144,80 160Z" fill="#b5d9a0" opacity="0.65"/>
+          <path d="M80 185 C98 172,115 168,126 155 C110 166,94 173,80 185Z" fill="#b5d9a0" opacity="0.65"/>
+          <g class="bloom-group">
+            <circle cx="80" cy="94" r="12" fill="#dceefb"/>
+            <ellipse cx="80" cy="74"  rx="9" ry="14" fill="#a8d4f9" opacity="0.85"/>
+            <ellipse cx="80" cy="114" rx="9" ry="14" fill="#a8d4f9" opacity="0.85"/>
+            <ellipse cx="60" cy="94" rx="14" ry="9"  fill="#a8d4f9" opacity="0.85"/>
+            <ellipse cx="100" cy="94" rx="14" ry="9" fill="#a8d4f9" opacity="0.85"/>
+            <ellipse cx="66" cy="80" rx="9" ry="14"  fill="#a8d4f9" opacity="0.65" transform="rotate(-45 66 80)"/>
+            <ellipse cx="94" cy="80" rx="9" ry="14"  fill="#a8d4f9" opacity="0.65" transform="rotate(45 94 80)"/>
+            <ellipse cx="66" cy="108" rx="9" ry="14" fill="#a8d4f9" opacity="0.65" transform="rotate(45 66 108)"/>
+            <ellipse cx="94" cy="108" rx="9" ry="14" fill="#a8d4f9" opacity="0.65" transform="rotate(-45 94 108)"/>
+            <circle cx="80" cy="94" r="8" fill="#5baae7"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+
+    <div class="chapter-photos">
+      <div class="photo-left">
+        <div class="polaroid">
+          <img src="image/foto5.jpeg" alt="foto 5"/>
+          <div class="polaroid-caption">Our First Concert</div>
+        </div>
+      </div>
+      <div class="photo-mid"></div>
+      <div class="photo-right">
+        <div class="polaroid">
+          <img src="image/foto1.jpeg" alt="foto 6"/>
+          <div class="polaroid-caption">Panitia Alkenaa~~</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider">
+      <svg viewBox="0 0 260 20"><path d="M10 12 C60 5,110 16,130 10 S200 4,250 11" stroke="#f9a8c9" stroke-width="1.8" stroke-linecap="round" fill="none"/></svg>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       📖 CHAPTER 2
+  ============================================================ -->
+  <div class="chapter">
+    <div class="chapter-row">
+      <div class="flower-col left">
+        <svg class="flower-svg" viewBox="0 0 160 220" fill="none">
+          <path d="M80 220 C78 170,76 140,80 110" stroke="#7a6a6a" stroke-width="2.2" stroke-linecap="round"/>
+          <path d="M80 155 C58 140,38 130,24 112" stroke="#7a6a6a" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M80 180 C102 165,122 162,136 148" stroke="#7a6a6a" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M80 155 C58 140,38 130,24 112 C40 122,62 135,80 155Z" fill="#b5d9a0" opacity="0.65"/>
+          <path d="M80 180 C102 165,122 162,136 148 C118 160,98 167,80 180Z" fill="#b5d9a0" opacity="0.65"/>
+          <g class="bloom-group">
+            <circle cx="80" cy="90" r="20" fill="#fde8f2" opacity="0.6"/>
+            <path d="M80 72 C72 78,68 86,72 94 C76 102,88 104,94 98 C100 92,98 80,90 76 C86 72,80 72,80 72Z" fill="#f9a8c9" opacity="0.9"/>
+            <path d="M80 72 C88 78,92 86,88 94 C84 102,72 104,66 98 C60 92,62 80,70 76 C74 72,80 72,80 72Z" fill="#f9a8c9" opacity="0.75"/>
+            <path d="M65 85 C66 94,72 100,80 100 C88 100,94 94,95 85" fill="#e879a0" opacity="0.5"/>
+            <circle cx="80" cy="90" r="7" fill="#e879a0"/>
+          </g>
+        </svg>
+      </div>
+
+      <div class="chapter-text">
+        <span class="chapter-label">harapan buat meyinn</span>
+        <p class="chapter-p">
+          Selamat ulang tahun meilinda puspita sari, selamatt cintakuuu sayangnyoo apii sudah bertambah umur lagii, sudahh melewatii dan menambah 1 tahun lagi di hidup melin, dan selamat dirayakan lagi samo apiii dan yang lainn walaupun dak biso langsung kaya tahun sebelumnyaa. Gimana sengg, ketemu long text api lagi ? sudah satu tahun long text kemarin abiss dan melin dapet long text ulang tahunn lagii dari apii. Apii senengg sedihh campurr karnoo api seneng melin biso bertahan 1 tahun lagi di idup melin, tapi api jg sedih dk biso samo melin di hari ulang tahun melin, tapiii melinn udaa adaa myfeett yaahhhhh kado offline melinn suddaa adaa sekarang inii kado online buat melinnn, inshaAllah kalo ad rejekii impian satu lagi yang bikin bimbang myfeet kemarin kita wujudin yaa!!.
+        </p>
+        <br>
+        <p class="chapter-p">Melinn, makasi ya uda tetep ada di dunia, walopun api tau makin kesini hidup melin makin banyak goncangannyaa, kehilangannyaa, dan kesedihannyaa, semogaa hal itu semuaa tergantikan di masa depann nantii yoo sengg. Apii ngetik inii tiba tiba ke flashback gimana awal kita kenall, dari yang api cuekk nian smo melinnn, teruss berubah jadi api yang suka sm melinn, teruss berlanjut kita berdua yang jalin hubungan huhuuu. Api seneng nian biso dapet melin di hidup api, idup samo melin banyak hal hal baru dan pandangan baru yang api dapett dan semoga melin jugo ngerasoin hal yang samo yo sengg. Kalo gada melin apa ya yang bakal terjadi di hidup api? kayanya ga seru dehhh idup api dan pastinya api ansos dan nolep karena melin bawa senyum terus ke api, makanyaa idupp api lebih berwarnaa, begitu jugaa sm yg lainnn teman teman melinn, sahabat melinn, keluarga melinn. Makanyaa jangan sedih terus yaa sayangg, jangan disimpen sendirian, bilang sm api, pacar melin yang bawel dan ngeselin iniii. Harapan dan doa untuk melin kayanya terlalu banyakk dehhh karenaa api ingin melinn dapett banyakkk bahagiaa dan terwujudnya mimpi mimpii melinnn, ntah itu rejekii melinn, dipermudahnya hidup melinn, bahagianyaa hidup melinn, dan kecerdasan yang diberikan untuk melinn. Ga terasaa yaa sekarang melinnyo apii la besakkk, tapi bagi apii melin yo melin, anak kecil yang selalu pgn api gangguinnn teruss smpee marah marahhh hehee. 
+        </p>
+      </div>
+
+      <div class="flower-col right">
+        <svg class="flower-svg" viewBox="0 0 160 220" fill="none">
+          <path d="M80 220 C78 170,76 140,80 110" stroke="#7a6a6a" stroke-width="2.2" stroke-linecap="round"/>
+          <path d="M80 155 C58 140,38 130,24 112" stroke="#7a6a6a" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M80 180 C102 165,122 162,136 148" stroke="#7a6a6a" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M80 155 C58 140,38 130,24 112 C40 122,62 135,80 155Z" fill="#b5d9a0" opacity="0.65"/>
+          <path d="M80 180 C102 165,122 162,136 148 C118 160,98 167,80 180Z" fill="#b5d9a0" opacity="0.65"/>
+          <g class="bloom-group">
+            <circle cx="80" cy="90" r="20" fill="#dceefb" opacity="0.6"/>
+            <path d="M80 72 C72 78,68 86,72 94 C76 102,88 104,94 98 C100 92,98 80,90 76 C86 72,80 72,80 72Z" fill="#a8d4f9" opacity="0.9"/>
+            <path d="M80 72 C88 78,92 86,88 94 C84 102,72 104,66 98 C60 92,62 80,70 76 C74 72,80 72,80 72Z" fill="#a8d4f9" opacity="0.75"/>
+            <path d="M65 85 C66 94,72 100,80 100 C88 100,94 94,95 85" fill="#5baae7" opacity="0.5"/>
+            <circle cx="80" cy="90" r="7" fill="#5baae7"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+
+    <div class="chapter-photos">
+      <div class="photo-left">
+        <div class="polaroid">
+          <img src="image/foto7.jpeg" alt="foto 7"/>
+          <div class="polaroid-caption">our 2nd Concert</div>
+        </div>
+        <div class="polaroid">
+          <img src="image/foto8.jpeg" alt="foto 8"/>
+          <div class="polaroid-caption">Konser Lagi ^^</div>
+        </div>
+      </div>
+      <div class="photo-mid"></div>
+      <div class="photo-right">
+        <div class="polaroid">
+          <img src="image/konser4.jpeg" alt="foto 9"/>
+          <div class="polaroid-caption">Konser teross</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider">
+      <svg viewBox="0 0 260 20"><path d="M10 12 C60 5,110 16,130 10 S200 4,250 11" stroke="#a8d4f9" stroke-width="1.8" stroke-linecap="round" fill="none"/></svg>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       📖 CHAPTER 3
+  ============================================================ -->
+  <div class="chapter">
+    <div class="chapter-row">
+      <div class="flower-col left">
+        <svg class="flower-svg" viewBox="0 0 160 220" fill="none">
+          <path d="M80 220 C78 170,76 140,80 110" stroke="#7a6a6a" stroke-width="2.2" stroke-linecap="round"/>
+          <path d="M80 165 C60 150,40 145,28 128" stroke="#7a6a6a" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M80 190 C100 175,120 170,132 156" stroke="#7a6a6a" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M80 165 C60 150,40 145,28 128 C44 138,64 150,80 165Z" fill="#b5d9a0" opacity="0.65"/>
+          <path d="M80 190 C100 175,120 170,132 156 C116 166,98 175,80 190Z" fill="#b5d9a0" opacity="0.65"/>
+          <g class="bloom-group">
+            <ellipse cx="80" cy="76"  rx="7" ry="16" fill="#fde8f2" opacity="0.9"/>
+            <ellipse cx="80" cy="110" rx="7" ry="16" fill="#fde8f2" opacity="0.9"/>
+            <ellipse cx="63" cy="93" rx="16" ry="7"  fill="#fde8f2" opacity="0.9"/>
+            <ellipse cx="97" cy="93" rx="16" ry="7"  fill="#fde8f2" opacity="0.9"/>
+            <ellipse cx="68" cy="80" rx="7" ry="16"  fill="#f9a8c9" opacity="0.7" transform="rotate(-45 68 80)"/>
+            <ellipse cx="92" cy="80" rx="7" ry="16"  fill="#f9a8c9" opacity="0.7" transform="rotate(45 92 80)"/>
+            <ellipse cx="68" cy="106" rx="7" ry="16" fill="#f9a8c9" opacity="0.7" transform="rotate(45 68 106)"/>
+            <ellipse cx="92" cy="106" rx="7" ry="16" fill="#f9a8c9" opacity="0.7" transform="rotate(-45 92 106)"/>
+            <circle cx="80" cy="93" r="11" fill="#f9d8a0"/>
+            <circle cx="80" cy="93" r="6"  fill="#e8b840"/>
+          </g>
+        </svg>
+      </div>
+
+      <div class="chapter-text">
+        <span class="chapter-label">you're enough</span>
+        <p class="chapter-p">
+          Umur melin yang sekarang uda banyak lewatin hal hal yang berat lohh sengg, hal berat yang api tau dan mungkin api dan banyak orang gatau. 4 tahun ulang tahun yang samo api ini, api bisa jadi saksi hal hal berat yang udah melin lewatin, dan itu beneran berat banget banget bangett, makanya api mau bilang ama melinn api bangga sama melinn, im proud of you sengg, melin harus bisa bangga dan bersyukur uda bisa lewatin itu semuaa dan kaya yang api bilang itu semua ga gampangg. Melin ingett gaa gimana proses di UMP terus pindah ke Unsri, dan ospek unsrii???? api bangga nn sm melin, api tiap inget momen itu ky ga nyangka melin bisa lewatinnyaa, api cuma pgn melin kuatt untuk hal apopun kedepannyo karno hal hal berat itu sudah pernah melin lewatin sebelumnyo. Makasi melin suda bertahan sejauh ini, makasii atas segala hal yang sudah melin kasih ke apii, dan makasihh jugaa untuk diri melinnn yang selaluu kuattt. SENGGG api tau melin bakal makin ovt di umur melin sekarangg tapii percayalahh yang melin takutin bisa melin lewatin, melin ado api seng, samo api yoo, maaf kalo api nyakitin dan minta maaf terus ke melin. Api mau liat melin senyum lagiii, jangan sedihh lagii yaa, jangan mikirin hal yang diluar kendali melinn yo sayanggg, melin ada apii, ada teman teman melinn, ada keluarga melin.
+        </p>
+      </div>
+
+      <div class="flower-col right">
+        <svg class="flower-svg" viewBox="0 0 160 220" fill="none">
+          <path d="M80 220 C78 170,76 140,80 110" stroke="#7a6a6a" stroke-width="2.2" stroke-linecap="round"/>
+          <path d="M80 165 C60 150,40 145,28 128" stroke="#7a6a6a" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M80 190 C100 175,120 170,132 156" stroke="#7a6a6a" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M80 165 C60 150,40 145,28 128 C44 138,64 150,80 165Z" fill="#b5d9a0" opacity="0.65"/>
+          <path d="M80 190 C100 175,120 170,132 156 C116 166,98 175,80 190Z" fill="#b5d9a0" opacity="0.65"/>
+          <g class="bloom-group">
+            <ellipse cx="80" cy="76"  rx="7" ry="16" fill="#dceefb" opacity="0.9"/>
+            <ellipse cx="80" cy="110" rx="7" ry="16" fill="#dceefb" opacity="0.9"/>
+            <ellipse cx="63" cy="93" rx="16" ry="7"  fill="#dceefb" opacity="0.9"/>
+            <ellipse cx="97" cy="93" rx="16" ry="7"  fill="#dceefb" opacity="0.9"/>
+            <ellipse cx="68" cy="80" rx="7" ry="16"  fill="#a8d4f9" opacity="0.7" transform="rotate(-45 68 80)"/>
+            <ellipse cx="92" cy="80" rx="7" ry="16"  fill="#a8d4f9" opacity="0.7" transform="rotate(45 92 80)"/>
+            <ellipse cx="68" cy="106" rx="7" ry="16" fill="#a8d4f9" opacity="0.7" transform="rotate(45 68 106)"/>
+            <ellipse cx="92" cy="106" rx="7" ry="16" fill="#a8d4f9" opacity="0.7" transform="rotate(-45 92 106)"/>
+            <circle cx="80" cy="93" r="11" fill="#f9d8a0"/>
+            <circle cx="80" cy="93" r="6"  fill="#e8b840"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+
+    <div class="chapter-photos">
+      <div class="photo-left">
+        <div class="polaroid">
+          <img src="image/pantai.jpeg" alt="foto 1"/>
+          <div class="polaroid-caption">jakbar</div>
+        </div>
+      </div>
+      <div class="photo-mid"></div>
+      <div class="photo-right">
+        <div class="polaroid">
+          <img src="image/unsri.jpeg" alt="foto 1"/>
+          <div class="polaroid-caption">masuk unsrii</div>
+        </div>
+        <div class="polaroid">
+          <img src="image/cuantek.jpeg" alt="foto 1"/>
+          <div class="polaroid-caption">foto twiibbon</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider">
+      <svg viewBox="0 0 260 20"><path d="M10 12 C60 5,110 16,130 10 S200 4,250 11" stroke="#f9a8c9" stroke-width="1.8" stroke-linecap="round" fill="none"/></svg>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       📖 CHAPTER 4
+  ============================================================ -->
+  <div class="chapter">
+    <div class="chapter-row">
+      <div class="flower-col left">
+        <svg class="flower-svg" viewBox="0 0 160 220" fill="none">
+          <path d="M80 220 C78 170,76 140,80 110" stroke="#7a6a6a" stroke-width="2.2" stroke-linecap="round"/>
+          <path d="M80 158 C62 144,44 138,32 122" stroke="#7a6a6a" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M80 182 C98 168,116 164,128 150" stroke="#7a6a6a" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M80 158 C62 144,44 138,32 122 C48 132,64 144,80 158Z" fill="#b5d9a0" opacity="0.65"/>
+          <path d="M80 182 C98 168,116 164,128 150 C112 162,96 170,80 182Z" fill="#b5d9a0" opacity="0.65"/>
+          <g class="bloom-group">
+            <path d="M72 110 C68 94,70 80,80 72 C90 80,92 94,88 110Z" fill="#f9a8c9" opacity="0.85"/>
+            <path d="M80 72 C74 62,66 58,62 65 C60 74,64 86,72 94" fill="#f9a8c9" opacity="0.7"/>
+            <path d="M80 72 C86 62,94 58,98 65 C100 74,96 86,88 94" fill="#f9a8c9" opacity="0.7"/>
+            <line x1="80" y1="110" x2="80" y2="130" stroke="#7a6a6a" stroke-width="2"/>
+          </g>
+        </svg>
+      </div>
+
+      <div class="chapter-text">
+        <span class="chapter-label">Dan Seterusnya</span>
+        <p class="chapter-p">
+          Kayanya tanpa basa basi lagii, apii mauu ucapinn lagii dehh selamat ulang tahunnn. Selamat datang senggg di umur 22 inii, nanti certain yaa gimana rasanyaa "tua", selamat bertambah umurr yaa cintakuuu, semoga di umur 22 iniii kita masi sama samaa yaaa, HARUSS SAMA SAMA, di umur iniii apii harapp menjadi titik balikk melinnn untuk dibukakan pintuu rejekiiii, dewasaa, dann kecerdasannyaaa, melinn dahh gedee tapii di mata apii melinn adalah meyinnn gadis mungil yang strong. Apapun yang terjadi di umur 22 ini api harap melin jangan nyerah ya, jangan pernah rendahin diri melin, jangan pernah jatuhin diri sendiri ataupun sakitin diri melinn. apii cuma pgn melin tauu melin tu berharga di hidup api, melin berharga di hidup semua orang, jadi jangan pernah nganggep kalo melin itu sendirian yaa senggg, melinn ada apiii, ada adinn, aldoo, dewaa, jepunn, dan sekarang uda adaa apiss jugaaa. Teruss kalo di kampuss melinn ada amikkk, malikaa, salmaa, nailaa dan anggota geng melin yang lainn. Makasii yaa sengg uda tetep idupp, please hargain dan nikmatin hidup melin, jangan pernah nyerah sama hidup melinn, kalo pun melin dktau alasan melin hidup, please teteplah hidup demi api.
+        </p>
+        <br><br><br>
+      </div>
+
+      <div class="flower-col right">
+        <svg class="flower-svg" viewBox="0 0 160 220" fill="none">
+          <path d="M80 220 C78 170,76 140,80 110" stroke="#7a6a6a" stroke-width="2.2" stroke-linecap="round"/>
+          <path d="M80 158 C62 144,44 138,32 122" stroke="#7a6a6a" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M80 182 C98 168,116 164,128 150" stroke="#7a6a6a" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M80 158 C62 144,44 138,32 122 C48 132,64 144,80 158Z" fill="#b5d9a0" opacity="0.65"/>
+          <path d="M80 182 C98 168,116 164,128 150 C112 162,96 170,80 182Z" fill="#b5d9a0" opacity="0.65"/>
+          <g class="bloom-group">
+            <path d="M72 110 C68 94,70 80,80 72 C90 80,92 94,88 110Z" fill="#a8d4f9" opacity="0.85"/>
+            <path d="M80 72 C74 62,66 58,62 65 C60 74,64 86,72 94" fill="#a8d4f9" opacity="0.7"/>
+            <path d="M80 72 C86 62,94 58,98 65 C100 74,96 86,88 94" fill="#a8d4f9" opacity="0.7"/>
+            <line x1="80" y1="110" x2="80" y2="130" stroke="#7a6a6a" stroke-width="2"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+
+    <div class="chapter-photos">
+      <div class="photo-left">
+        <div class="polaroid">
+          <img src="image/wisuda1.jpeg" alt="foto 1"/>
+          <div class="polaroid-caption">prewed</div>
+        </div>
+      </div>
+      <div class="photo-mid"></div>
+      <div class="photo-right">
+        <div class="polaroid">
+          <img src="image/wisuda2.jpeg" alt="foto 1"/>
+          <div class="polaroid-caption">potosut</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chapter-photos">
+      <div class="photo-left">
+        <div class="polaroid">
+          <img src="image/selfie.jpeg" alt="foto 1"/>
+          <div class="polaroid-caption">selfii timee</div>
+        </div>
+      </div>
+      <div class="photo-mid"></div>
+      <div class="photo-right">
+        <div class="polaroid">
+          <img src="image/selfie1.jpeg" alt="foto 1"/>
+          <div class="polaroid-caption">cuantekk</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       🎬 VIDEO
+  ============================================================ -->
+  <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<div class="video-section">
+  <span class="video-label">Satu lagi ✦</span>
+  <p class="chapter-p">
+    tonton video inii yaa buatt kadooo ulang tahunn online satu lagii!
+  </p>
+
+  <br><br>
+
+<div style="
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  margin-top:40px;
+">
+
+  <div style="
+    position:relative;
+    max-width:600px;
+    width:100%;
+  ">
+
+    <img 
+      src="image/netflix.png"
+      style="width:100%; border-radius:12px;"
+    >
+
+    <a href="https://youtu.be/RDOMJlQP2tg" target="_blank"
+       style="
+         position:absolute;
+         top:50%;
+         left:50%;
+         transform:translate(-50%, -50%);
+         font-size:40px;
+         color:white;
+         text-decoration:none;
+         background:rgba(0,0,0,0.6);
+         padding:12px 20px;
+         border-radius:50%;
+       ">
+       ▶
+    </a>
+
+  </div>
+
+</div>
+
+  <!-- ============================================================
+       💌 ENDING
+  ============================================================ -->
+  <div class="ending">
+    <div class="ending-flowers">
+      <svg class="flower-svg" viewBox="0 0 160 220" fill="none">
+        <path d="M80 220 C78 170,76 140,80 100" stroke="#7a6a6a" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M80 160 C58 145,36 138,22 118" stroke="#7a6a6a" stroke-width="2" stroke-linecap="round"/>
+        <path d="M80 185 C102 170,124 165,138 150" stroke="#7a6a6a" stroke-width="2" stroke-linecap="round"/>
+        <path d="M80 160 C58 145,36 138,22 118 C40 130,62 144,80 160Z" fill="#b5d9a0" opacity="0.7"/>
+        <path d="M80 185 C102 170,124 165,138 150 C118 162,98 170,80 185Z" fill="#b5d9a0" opacity="0.7"/>
+        <g class="bloom-group">
+          <circle cx="80" cy="84" r="16" fill="#fde8f2"/>
+          <ellipse cx="80" cy="60"  rx="11" ry="18" fill="#f9a8c9" opacity="0.85"/>
+          <ellipse cx="80" cy="108" rx="11" ry="18" fill="#f9a8c9" opacity="0.85"/>
+          <ellipse cx="56" cy="84" rx="18" ry="11"  fill="#f9a8c9" opacity="0.85"/>
+          <ellipse cx="104" cy="84" rx="18" ry="11" fill="#f9a8c9" opacity="0.85"/>
+          <ellipse cx="63" cy="67" rx="11" ry="18"  fill="#f9a8c9" opacity="0.65" transform="rotate(-45 63 67)"/>
+          <ellipse cx="97" cy="67" rx="11" ry="18"  fill="#f9a8c9" opacity="0.65" transform="rotate(45 97 67)"/>
+          <ellipse cx="63" cy="101" rx="11" ry="18" fill="#f9a8c9" opacity="0.65" transform="rotate(45 63 101)"/>
+          <ellipse cx="97" cy="101" rx="11" ry="18" fill="#f9a8c9" opacity="0.65" transform="rotate(-45 97 101)"/>
+          <circle cx="80" cy="84" r="10" fill="#e879a0"/>
+        </g>
+      </svg>
+      <svg class="flower-svg flip" viewBox="0 0 160 220" fill="none">
+        <path d="M80 220 C78 170,76 140,80 100" stroke="#7a6a6a" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M80 160 C58 145,36 138,22 118" stroke="#7a6a6a" stroke-width="2" stroke-linecap="round"/>
+        <path d="M80 185 C102 170,124 165,138 150" stroke="#7a6a6a" stroke-width="2" stroke-linecap="round"/>
+        <path d="M80 160 C58 145,36 138,22 118 C40 130,62 144,80 160Z" fill="#b5d9a0" opacity="0.7"/>
+        <path d="M80 185 C102 170,124 165,138 150 C118 162,98 170,80 185Z" fill="#b5d9a0" opacity="0.7"/>
+        <g class="bloom-group">
+          <circle cx="80" cy="84" r="16" fill="#dceefb"/>
+          <ellipse cx="80" cy="60"  rx="11" ry="18" fill="#a8d4f9" opacity="0.85"/>
+          <ellipse cx="80" cy="108" rx="11" ry="18" fill="#a8d4f9" opacity="0.85"/>
+          <ellipse cx="56" cy="84" rx="18" ry="11"  fill="#a8d4f9" opacity="0.85"/>
+          <ellipse cx="104" cy="84" rx="18" ry="11" fill="#a8d4f9" opacity="0.85"/>
+          <ellipse cx="63" cy="67" rx="11" ry="18"  fill="#a8d4f9" opacity="0.65" transform="rotate(-45 63 67)"/>
+          <ellipse cx="97" cy="67" rx="11" ry="18"  fill="#a8d4f9" opacity="0.65" transform="rotate(45 97 67)"/>
+          <ellipse cx="63" cy="101" rx="11" ry="18" fill="#a8d4f9" opacity="0.65" transform="rotate(45 63 101)"/>
+          <ellipse cx="97" cy="101" rx="11" ry="18" fill="#a8d4f9" opacity="0.65" transform="rotate(-45 97 101)"/>
+          <circle cx="80" cy="84" r="10" fill="#5baae7"/>
+        </g>
+      </svg>
+    </div>
+
+    <div class="ending-title">
+      Terima kasih<br/>sudah ada meyinn
+    </div>
+    <div class="ending-sub">lopyuuu cengg.</div>
+  </div>
+
+  <script>
+    // ============================================================
+    // SCROLL REVEAL + TRIGGER BLOOM SAAT MASUK VIEWPORT
+    // ============================================================
+    const revealEls = document.querySelectorAll(
+      '.chapter-row,.chapter-photos,.divider,.video-section,.ending-flowers,.ending-title,.ending-sub'
+    );
+
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+
+          // Trigger bloom pada semua .flower-svg di dalam elemen ini
+          const flowers = e.target.querySelectorAll('.flower-svg');
+          flowers.forEach((svg, i) => {
+            setTimeout(() => {
+              svg.classList.add('bloom');
+            }, i * 180); // stagger antar bunga kiri & kanan
+          });
+
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    revealEls.forEach(el => io.observe(el));
+
+    // ============================================================
+    // BLOOM HERO — mekar setelah hero fade-in selesai
+    // ============================================================
+    window.addEventListener('load', () => {
+      // Hero fade-in selesai ~2.4 detik, bloom sedikit setelahnya
+      const heroFlowers = document.querySelectorAll('.hero .flower-svg');
+      heroFlowers.forEach((svg, i) => {
+        setTimeout(() => {
+          svg.classList.add('bloom');
+        }, 2200 + i * 280);
+      });
+    });
+
+    // ============================================================
+    // MUSIK
+    // ============================================================
+    const audio = document.getElementById('bg-music');
+    const btn   = document.getElementById('play-btn');
+    document.addEventListener('click', function startAudio() {
+      if (audio.src && audio.paused) { audio.play().catch(()=>{}); btn.textContent = '⏸'; }
+      document.removeEventListener('click', startAudio);
+    }, { once: true });
+    function toggleMusic() {
+      if (audio.paused) { audio.play(); btn.textContent = '⏸'; }
+      else              { audio.pause(); btn.textContent = '▶'; }
+    }
+  </script>
+</body>
+</html>
